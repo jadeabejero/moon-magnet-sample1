@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moon Magnet Music — Redesign Direction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --void:#150F24;
+    --void-2:#1E1533;
+    --magenta:#FF3DAE;
+    --cyan:#2FE6FF;
+    --gold:#FFCB3D;
+    --paper:#F6F1E8;
+    --paper-2:#EFE6D6;
+    --ink:#1C1526;
+    --ink-soft:#4B3F5E;
+    --font-display:'Bungee', system-ui, sans-serif;
+    --font-body:'Space Grotesk', system-ui, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --void:#120C1F;
+    }
+  }
+  :root[data-theme="dark"]{
+    --void:#120C1F;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--void);
+    color:var(--paper);
+    font-family:var(--font-body);
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+
+  img{max-width:100%; display:block;}
+
+  .wrap{
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  /* ---------- NOTE BANNER (mockup context only) ---------- */
+  .mockup-banner{
+    background:var(--gold);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:13px;
+    font-weight:600;
+    text-align:center;
+    padding:10px 16px;
+    letter-spacing:.2px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    background:var(--void);
+    border-bottom:1px solid rgba(246,241,232,.08);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 32px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-size:18px;
+    color:var(--paper);
+  }
+  .logo-mark{
+    width:34px; height:34px;
+    border-radius:50%;
+    background:conic-gradient(from 200deg, var(--magenta), var(--gold), var(--cyan), var(--magenta));
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;
+    flex-shrink:0;
+  }
+  nav.links{
+    display:flex;
+    gap:28px;
+    font-size:14px;
+    font-weight:500;
+  }
+  nav.links a{
+    color:rgba(246,241,232,.75);
+    transition:color .15s ease;
+  }
+  nav.links a:hover{color:var(--cyan);}
+  .nav-cta{
+    background:linear-gradient(100deg, var(--magenta), var(--cyan));
+    color:var(--void);
+    font-weight:700;
+    font-size:13px;
+    padding:10px 20px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  @media (max-width:860px){
+    nav.links{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:88px 32px 0;
+    position:relative;
+  }
+  .hero-inner{
+    max-width:1200px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:56px;
+    align-items:center;
+  }
+  @media (max-width:920px){
+    .hero-inner{grid-template-columns:1fr; text-align:left;}
+  }
+  .eyebrow-line{
+    font-size:14px;
+    color:var(--cyan);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+  h1.headline{
+    font-family:var(--font-display);
+    font-size:clamp(40px, 6vw, 72px);
+    line-height:1.05;
+    color:var(--paper);
+    margin-bottom:24px;
+  }
+  h1.headline .accent{
+    background:linear-gradient(100deg, var(--magenta), var(--gold));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero p.sub{
+    font-size:18px;
+    color:rgba(246,241,232,.78);
+    max-width:46ch;
+    margin-bottom:34px;
+  }
+  .btn-primary{
+    display:inline-block;
+    background:linear-gradient(100deg, var(--magenta), var(--cyan));
+    color:var(--void);
+    font-weight:700;
+    font-size:15px;
+    padding:16px 30px;
+    border-radius:999px;
+    box-shadow:0 10px 30px -8px rgba(255,61,174,.55);
+    transform:rotate(-1deg);
+  }
+
+  /* hero collage */
+  .collage{
+    position:relative;
+    height:440px;
+  }
+  .collage .tile{
+    position:absolute;
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 20px 40px -12px rgba(0,0,0,.55);
+    border:6px solid var(--paper);
+  }
+  .collage .tile .caption{
+    position:absolute; inset:auto 0 0 0;
+    background:rgba(21,15,36,.75);
+    color:var(--paper);
+    font-size:11px;
+    padding:6px 8px;
+    font-weight:500;
+  }
+  .swatch{
+    width:100%; height:100%;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    font-size:12px;
+    color:rgba(255,255,255,.85);
+    font-weight:600;
+    padding:10px;
+  }
+  .t1{ top:0; left:10%; width:52%; height:230px; transform:rotate(-4deg); background:linear-gradient(135deg,#FF3DAE,#FFCB3D); z-index:3;}
+  .t2{ top:38px; right:0; width:44%; height:190px; transform:rotate(5deg); background:linear-gradient(135deg,#2FE6FF,#7A5CFF); z-index:2;}
+  .t3{ bottom:0; left:0; width:40%; height:180px; transform:rotate(3deg); background:linear-gradient(135deg,#FFCB3D,#FF7A3D); z-index:2;}
+  .t4{ bottom:-10px; right:8%; width:46%; height:200px; transform:rotate(-6deg); background:linear-gradient(135deg,#FF3DAE,#2FE6FF); z-index:1;}
+  @media (max-width:920px){
+    .collage{height:360px; margin-top:20px;}
+  }
+
+  /* ---------- TICKER ---------- */
+  .ticker-band{
+    background:var(--paper);
+    color:var(--ink);
+    overflow:hidden;
+    border-top:1px solid rgba(28,21,38,.08);
+    border-bottom:1px solid rgba(28,21,38,.08);
+    margin-top:80px;
+  }
+  .ticker-track{
+    display:flex;
+    width:max-content;
+    animation:scroll 26s linear infinite;
+  }
+  .ticker-track span{
+    font-family:var(--font-display);
+    font-size:16px;
+    padding:16px 28px;
+    white-space:nowrap;
+  }
+  .ticker-track span.star{color:var(--magenta);}
+  @keyframes scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ticker-track{animation:none;}
+  }
+
+  /* ---------- SERVICES ---------- */
+  .services{
+    background:var(--paper);
+    color:var(--ink);
+    padding:110px 32px 130px;
+  }
+  .section-head{
+    max-width:640px;
+    margin:0 auto 64px;
+    text-align:center;
+  }
+  .section-head h2{
+    font-family:var(--font-display);
+    font-size:clamp(30px,4vw,44px);
+    margin-bottom:14px;
+  }
+  .section-head p{
+    color:var(--ink-soft);
+    font-size:16px;
+  }
+  .card-fan{
+    display:flex;
+    justify-content:center;
+    gap:28px;
+    flex-wrap:wrap;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .service-card{
+    background:#fff;
+    width:300px;
+    border-radius:4px;
+    box-shadow:0 24px 48px -20px rgba(28,21,38,.35);
+    overflow:hidden;
+    transition:transform .2s ease;
+  }
+  .service-card:hover{transform:translateY(-6px) rotate(0deg) !important;}
+  .service-card:nth-child(1){transform:rotate(-4deg);}
+  .service-card:nth-child(2){transform:rotate(2deg); margin-top:-18px;}
+  .service-card:nth-child(3){transform:rotate(-2deg);}
+  .service-photo{
+    height:180px;
+    display:flex; align-items:center; justify-content:center;
+    color:rgba(255,255,255,.9);
+    font-size:12px;
+    font-weight:600;
+    text-align:center;
+    padding:14px;
+  }
+  .sp1{background:linear-gradient(135deg,#7A5CFF,#2FE6FF);}
+  .sp2{background:linear-gradient(135deg,#FF3DAE,#FFCB3D);}
+  .sp3{background:linear-gradient(135deg,#FFCB3D,#FF7A3D);}
+  .service-body{padding:22px 22px 26px;}
+  .service-body .tag{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    color:var(--magenta);
+    background:rgba(255,61,174,.1);
+    padding:4px 10px;
+    border-radius:999px;
+    margin-bottom:12px;
+  }
+  .service-body h3{
+    font-family:var(--font-display);
+    font-size:19px;
+    margin-bottom:10px;
+    line-height:1.3;
+  }
+  .service-body p{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  .service-body a.link{
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink);
+    border-bottom:2px solid var(--cyan);
+    padding-bottom:2px;
+  }
+
+  /* ---------- TRUST ---------- */
+  .trust{
+    background:var(--void-2);
+    padding:100px 32px;
+  }
+  .stubs{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    justify-content:center;
+    max-width:1000px;
+    margin:0 auto 70px;
+  }
+  .stub{
+    border:2px dashed rgba(246,241,232,.3);
+    border-radius:10px;
+    padding:16px 20px;
+    min-width:180px;
+    text-align:center;
+  }
+  .stub .yr{
+    font-family:var(--font-display);
+    font-size:13px;
+    color:var(--gold);
+    margin-bottom:6px;
+  }
+  .stub .name{
+    font-size:13px;
+    color:rgba(246,241,232,.85);
+    font-weight:500;
+  }
+  .quote-block{
+    max-width:720px;
+    margin:0 auto 70px;
+    text-align:center;
+  }
+  .quote-block p.q{
+    font-size:24px;
+    line-height:1.45;
+    color:var(--paper);
+    margin-bottom:20px;
+  }
+  .quote-block p.by{
+    font-size:14px;
+    color:var(--cyan);
+    font-weight:600;
+  }
+  .worked-with{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .chip{
+    border:1px solid rgba(255,203,61,.4);
+    color:var(--gold);
+    font-size:13px;
+    font-weight:600;
+    padding:10px 18px;
+    border-radius:999px;
+  }
+
+  /* ---------- RELEASES / MERCH ---------- */
+  .releases{
+    background:var(--paper);
+    color:var(--ink);
+    padding:110px 32px;
+  }
+  .rel-grid{
+    max-width:1100px;
+    margin:64px auto 0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  @media (max-width:860px){
+    .rel-grid{grid-template-columns:1fr;}
+  }
+  .wall{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+  }
+  .wall .piece{
+    aspect-ratio:1;
+    border-radius:4px;
+    border:5px solid #fff;
+    box-shadow:0 14px 30px -12px rgba(28,21,38,.4);
+    position:relative;
+  }
+  .wall .piece:nth-child(1){transform:rotate(-5deg);}
+  .wall .piece:nth-child(2){transform:rotate(3deg); margin-top:14px;}
+  .wall .piece:nth-child(3){transform:rotate(-2deg);}
+  .wall .piece:nth-child(4){transform:rotate(4deg);}
+  .wall .piece:nth-child(5){transform:rotate(-3deg); margin-top:10px;}
+  .wall .piece:nth-child(6){transform:rotate(2deg);}
+  .p1{background:linear-gradient(140deg,#FF3DAE,#7A5CFF);}
+  .p2{background:linear-gradient(140deg,#2FE6FF,#FFCB3D);}
+  .p3{background:linear-gradient(140deg,#FFCB3D,#FF7A3D);}
+  .p4{background:linear-gradient(140deg,#7A5CFF,#2FE6FF);}
+  .p5{background:linear-gradient(140deg,#FF7A3D,#FF3DAE);}
+  .p6{background:linear-gradient(140deg,#FFCB3D,#7A5CFF);}
+  .wall .piece span{
+    position:absolute; inset:auto 6px 6px 6px;
+    font-size:10px;
+    color:rgba(255,255,255,.92);
+    font-weight:600;
+    line-height:1.2;
+  }
+
+  .player-card{
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:12px;
+    padding:20px;
+  }
+  .player-top{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    margin-bottom:16px;
+  }
+  .player-art{
+    width:56px;height:56px;border-radius:6px;
+    background:linear-gradient(135deg,var(--magenta),var(--cyan));
+    flex-shrink:0;
+  }
+  .player-top h4{font-family:var(--font-display); font-size:14px; margin-bottom:4px;}
+  .player-top p{font-size:12px; color:rgba(246,241,232,.6);}
+  .track{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-top:1px solid rgba(246,241,232,.1);
+    font-size:13px;
+  }
+  .track span.num{color:var(--cyan); margin-right:10px;}
+  .track span.dur{color:rgba(246,241,232,.5);}
+
+  .newsletter{
+    margin-top:56px;
+    background:#fff;
+    border-radius:14px;
+    padding:32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    flex-wrap:wrap;
+    box-shadow:0 20px 40px -20px rgba(28,21,38,.3);
+  }
+  .newsletter h3{
+    font-family:var(--font-display);
+    font-size:20px;
+    margin-bottom:6px;
+  }
+  .newsletter p{font-size:13px; color:var(--ink-soft);}
+  .nl-form{display:flex; gap:10px; flex-wrap:wrap;}
+  .nl-form input{
+    border:1.5px solid #E2D8C4;
+    background:var(--paper);
+    border-radius:999px;
+    padding:12px 18px;
+    font-family:var(--font-body);
+    font-size:13px;
+    color:var(--ink);
+    min-width:180px;
+  }
+  .nl-form input:focus{outline:2px solid var(--magenta); outline-offset:2px;}
+  .nl-form button{
+    border:none;
+    background:linear-gradient(100deg, var(--magenta), var(--cyan));
+    color:var(--void);
+    font-weight:700;
+    font-size:13px;
+    padding:12px 22px;
+    border-radius:999px;
+    cursor:pointer;
+    font-family:var(--font-body);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--void);
+    padding:40px 32px;
+    text-align:center;
+    font-size:12px;
+    color:rgba(246,241,232,.45);
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--cyan);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-banner">Direction mockup — hero, services, trust &amp; releases sections · gradients stand in for real photography &amp; artwork</div>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-mark">🌙</span> moon magnet</div>
+    <nav class="links">
+      <a href="#services">Lessons</a>
+      <a href="#services">DJ</a>
+      <a href="#services">Studio</a>
+      <a href="#releases">Releases</a>
+      <a href="#trust">About</a>
+    </nav>
+    <a class="nav-cta" href="#">Book a call</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow-line">Denver, since 2013</div>
+      <h1 class="headline">Gravitate to <span class="accent">your sound.</span></h1>
+      <p class="sub">Music lessons, DJs &amp; MCs, mixing and mastering, and the record label we run ourselves — all out of one foil-covered house in Denver.</p>
+      <a class="btn-primary" href="#">Start a project</a>
+    </div>
+    <div class="collage">
+      <div class="tile t1"><div class="swatch">Moonhammer band photo</div></div>
+      <div class="tile t2"><div class="swatch">Studio mixing session</div></div>
+      <div class="tile t3"><div class="swatch">Comp Vol. cover art</div></div>
+      <div class="tile t4"><div class="swatch">Live DJ set</div></div>
+    </div>
+  </div>
+
+  <div class="ticker-band">
+    <div class="ticker-track">
+      <span>Music lessons</span><span class="star">✦</span>
+      <span>DJ &amp; MC bookings</span><span class="star">✦</span>
+      <span>Mixing &amp; mastering</span><span class="star">✦</span>
+      <span>Original releases</span><span class="star">✦</span>
+      <span>Music lessons</span><span class="star">✦</span>
+      <span>DJ &amp; MC bookings</span><span class="star">✦</span>
+      <span>Mixing &amp; mastering</span><span class="star">✦</span>
+      <span>Original releases</span><span class="star">✦</span>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="section-head">
+    <h2>Three doors into one house</h2>
+    <p>Learn, record, or book us — it's all run by the same collective of working musicians.</p>
+  </div>
+  <div class="card-fan">
+    <div class="service-card">
+      <div class="service-photo sp1">Photo: lesson in progress</div>
+      <div class="service-body">
+        <span class="tag">Learn</span>
+        <h3>Music School</h3>
+        <p>Guitar, piano, voice, and production — our teachers drive to you.</p>
+        <a class="link" href="#">Find Denver lessons</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-photo sp2">Photo: mixing desk close-up</div>
+      <div class="service-body">
+        <span class="tag">Create</span>
+        <h3>Mixing &amp; Mastering</h3>
+        <p>Record, mix, and master at Moon Magnet Studios.</p>
+        <a class="link" href="#">Explore the studio</a>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-photo sp3">Photo: DJ set, crowd lit up</div>
+      <div class="service-body">
+        <span class="tag">Celebrate</span>
+        <h3>DJ &amp; MC Services</h3>
+        <p>DJs and MCs for weddings, corporate events, and parties.</p>
+        <a class="link" href="#">See DJ services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="trust" id="trust">
+  <div class="stubs">
+    <div class="stub"><div class="yr">2026</div><div class="name">Best of Denver — Westword</div></div>
+    <div class="stub"><div class="yr">2026</div><div class="name">Outstanding Alumni — CU</div></div>
+    <div class="stub"><div class="yr">2026</div><div class="name">Best of Zola</div></div>
+    <div class="stub"><div class="yr">2025</div><div class="name">Best of Zola</div></div>
+  </div>
+  <div class="quote-block">
+    <p class="q">"Reed made our wedding one of the great experiences of my life — personal, intentional, truly special."</p>
+    <p class="by">Ben Tyson, Groom</p>
+  </div>
+  <div class="worked-with">
+    <span class="chip">Denver Art Museum</span>
+    <span class="chip">303 Magazine</span>
+    <span class="chip">Indie 102.3</span>
+    <span class="chip">Rocky Mountain PBS</span>
+  </div>
+</section>
+
+<section class="releases" id="releases">
+  <div class="section-head">
+    <h2>Latest from the label</h2>
+    <p>Moon Magnet Records — and the art that comes with it.</p>
+  </div>
+  <div class="rel-grid">
+    <div class="wall">
+      <div class="piece p1"><span>Comp Vol. 2 art</span></div>
+      <div class="piece p2"><span>Moonhammer cassette</span></div>
+      <div class="piece p3"><span>Bun Bun merch</span></div>
+      <div class="piece p4"><span>Band portrait</span></div>
+      <div class="piece p5"><span>Foil packaging</span></div>
+      <div class="piece p6"><span>Comp Vol. 2</span></div>
+    </div>
+    <div>
+      <div class="player-card">
+        <div class="player-top">
+          <div class="player-art"></div>
+          <div>
+            <h4>Moon Magnet Records</h4>
+            <p>Playlist · deCollage &amp; friends</p>
+          </div>
+        </div>
+        <div class="track"><span><span class="num">01</span>Snakey</span><span class="dur">3:47</span></div>
+        <div class="track"><span><span class="num">02</span>Europa</span><span class="dur">3:08</span></div>
+        <div class="track"><span><span class="num">03</span>Burnout</span><span class="dur">3:52</span></div>
+        <div class="track"><span><span class="num">04</span>Slackjaw</span><span class="dur">3:24</span></div>
+      </div>
+      <div class="newsletter">
+        <div>
+          <h3>Stay in orbit</h3>
+          <p>Events, releases, and the occasional curiosity.</p>
+        </div>
+        <form class="nl-form" onsubmit="return false;">
+          <input type="email" placeholder="Email address" required>
+          <button type="submit">Join the orbit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Moon Magnet Music · Denver, CO · Be kind to your dreams.
+</footer>
+
+</body>
+</html>
