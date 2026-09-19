@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0095)https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="chrome-extension://jcacnejopjdphbnjgfaaobbfafkihpep/hive_keychain.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moon Magnet Music — Redesign Direction</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./index_files/css2" rel="stylesheet">
 <style>
 
   :root{
@@ -54,6 +54,21 @@
 
   a{color:inherit; text-decoration:none;}
 
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in{opacity:1; transform:none;}
+  .reveal.d1{transition-delay:.12s;}
+  .reveal.d2{transition-delay:.24s;}
+  .reveal.d3{transition-delay:.36s;}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+    *{animation-duration:.001s !important; animation-iteration-count:1 !important;}
+  }
+
   /* ---------- NOTE BANNER (mockup context only) ---------- */
   .mockup-banner{
     background:var(--gold);
@@ -68,7 +83,9 @@
 
   /* ---------- NAV ---------- */
   header.site-nav{
-    background:var(--void);
+    background:rgba(21,15,36,.85);
+    -webkit-backdrop-filter:blur(12px);
+    backdrop-filter:blur(12px);
     border-bottom:1px solid rgba(246,241,232,.08);
     position:sticky;
     top:0;
@@ -79,6 +96,7 @@
     align-items:center;
     justify-content:space-between;
     padding:18px 32px;
+    position:relative;
   }
   .logo{
     display:flex;
@@ -95,18 +113,30 @@
     display:flex;align-items:center;justify-content:center;
     font-size:16px;
     flex-shrink:0;
+    transition:transform .5s cubic-bezier(.2,.7,.2,1);
   }
+  .logo:hover .logo-mark{transform:rotate(180deg);}
   nav.links{
     display:flex;
     gap:28px;
     font-size:14px;
     font-weight:500;
-  }
-  nav.links a{
+  }  nav.links a{
     color:rgba(246,241,232,.75);
     transition:color .15s ease;
   }
   nav.links a:hover{color:var(--cyan);}
+  nav.links a{position:relative;}
+  nav.links a::after{
+    content:"";
+    position:absolute;
+    left:0; right:100%;
+    bottom:-6px;
+    height:2px;
+    background:var(--cyan);
+    transition:right .25s ease;
+  }
+  nav.links a:hover::after, nav.links a:focus-visible::after{right:0;}
   .nav-cta{
     background:linear-gradient(100deg, var(--magenta), var(--cyan));
     color:var(--void);
@@ -115,10 +145,63 @@
     padding:10px 20px;
     border-radius:999px;
     white-space:nowrap;
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
   }
+  .nav-cta:hover{
+    transform:translateY(-2px) scale(1.03);
+    box-shadow:0 8px 22px -6px rgba(255,61,174,.55);
+    filter:brightness(1.05);
+  }
+  .nav-cta:active{transform:translateY(0) scale(.97);}
+  .menu-toggle{
+    display:none;
+    background:none;
+    border:none;
+    color:var(--paper);
+    font-size:22px;
+    cursor:pointer;
+    padding:8px;
+    line-height:1;
+  }
+  .mobile-menu{
+    display:none;
+    flex-direction:column;
+    gap:18px;
+    padding:18px 32px 26px;
+    border-top:1px solid rgba(246,241,232,.08);
+  }
+  .mobile-menu a{
+    color:rgba(246,241,232,.85);
+    font-size:15px;
+    font-weight:500;
+  }
+  .mobile-menu a:hover{color:var(--cyan);}
+  .mobile-menu.open{display:flex;}
   @media (max-width:860px){
     nav.links{display:none;}
+    .menu-toggle{display:block;}
+    .nav-cta{display:none;}
   }
+
+  /* ---------- BUTTONS ---------- */
+  .btn-primary{
+    display:inline-block;
+    background:linear-gradient(100deg, var(--magenta), var(--cyan));
+    color:var(--void);
+    font-weight:700;
+    font-size:15px;
+    padding:16px 30px;
+    border-radius:999px;
+    box-shadow:0 10px 30px -8px rgba(255,61,174,.55);
+    transform:rotate(-1deg);
+    transition:transform .18s ease, box-shadow .25s ease, filter .18s ease;
+  }
+  .btn-primary:hover{
+    transform:rotate(-1deg) translateY(-3px) scale(1.02);
+    box-shadow:0 16px 40px -10px rgba(255,61,174,.65);
+    filter:brightness(1.06);
+  }
+  .btn-primary:active{transform:rotate(-1deg) translateY(0) scale(.97);}
 
   /* ---------- HERO ---------- */
   .hero{
@@ -161,17 +244,6 @@
     max-width:46ch;
     margin-bottom:34px;
   }
-  .btn-primary{
-    display:inline-block;
-    background:linear-gradient(100deg, var(--magenta), var(--cyan));
-    color:var(--void);
-    font-weight:700;
-    font-size:15px;
-    padding:16px 30px;
-    border-radius:999px;
-    box-shadow:0 10px 30px -8px rgba(255,61,174,.55);
-    transform:rotate(-1deg);
-  }
 
   /* hero collage */
   .collage{
@@ -184,6 +256,11 @@
     overflow:hidden;
     box-shadow:0 20px 40px -12px rgba(0,0,0,.55);
     border:6px solid var(--paper);
+    transition:transform .3s cubic-bezier(.2,.7,.2,1), z-index 0s;
+  }
+  .collage .tile:hover{
+    transform:rotate(0deg) scale(1.05) !important;
+    z-index:10 !important;
   }
   .collage .tile .caption{
     position:absolute; inset:auto 0 0 0;
@@ -208,9 +285,7 @@
   .t4{ bottom:-10px; right:8%; width:46%; height:200px; transform:rotate(-6deg); background:linear-gradient(135deg,#FF3DAE,#2FE6FF); z-index:1;}
   @media (max-width:920px){
     .collage{height:360px; margin-top:20px;}
-  }
-
-  /* ---------- TICKER ---------- */
+  }  /* ---------- TICKER ---------- */
   .ticker-band{
     background:var(--paper);
     color:var(--ink);
@@ -224,6 +299,7 @@
     width:max-content;
     animation:scroll 26s linear infinite;
   }
+  .ticker-track:hover{animation-play-state:paused;}
   .ticker-track span{
     font-family:var(--font-display);
     font-size:16px;
@@ -273,9 +349,12 @@
     border-radius:4px;
     box-shadow:0 24px 48px -20px rgba(28,21,38,.35);
     overflow:hidden;
-    transition:transform .2s ease;
+    transition:transform .25s ease, box-shadow .25s ease;
   }
-  .service-card:hover{transform:translateY(-6px) rotate(0deg) !important;}
+  .service-card:hover{
+    transform:translateY(-6px) rotate(0deg) !important;
+    box-shadow:0 30px 60px -22px rgba(28,21,38,.45);
+  }
   .service-card:nth-child(1){transform:rotate(-4deg);}
   .service-card:nth-child(2){transform:rotate(2deg); margin-top:-18px;}
   .service-card:nth-child(3){transform:rotate(-2deg);}
@@ -319,7 +398,9 @@
     color:var(--ink);
     border-bottom:2px solid var(--cyan);
     padding-bottom:2px;
+    transition:color .15s ease, border-color .15s ease;
   }
+  .service-body a.link:hover{color:var(--magenta); border-color:var(--magenta);}
 
   /* ---------- TRUST ---------- */
   .trust{
@@ -340,6 +421,11 @@
     padding:16px 20px;
     min-width:180px;
     text-align:center;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .stub:hover{
+    border-color:var(--gold);
+    transform:translateY(-4px);
   }
   .stub .yr{
     font-family:var(--font-display);
@@ -381,9 +467,14 @@
     font-weight:600;
     padding:10px 18px;
     border-radius:999px;
+    transition:background .2s ease, color .2s ease, transform .2s ease;
+    cursor:default;
   }
-
-  /* ---------- RELEASES / MERCH ---------- */
+  .chip:hover{
+    background:rgba(255,203,61,.12);
+    color:#FFD86B;
+    transform:translateY(-2px);
+  }  /* ---------- RELEASES / MERCH ---------- */
   .releases{
     background:var(--paper);
     color:var(--ink);
@@ -411,6 +502,12 @@
     border:5px solid #fff;
     box-shadow:0 14px 30px -12px rgba(28,21,38,.4);
     position:relative;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .wall .piece:hover{
+    transform:rotate(0deg) scale(1.06) !important;
+    box-shadow:0 20px 44px -14px rgba(28,21,38,.5);
+    z-index:2;
   }
   .wall .piece:nth-child(1){transform:rotate(-5deg);}
   .wall .piece:nth-child(2){transform:rotate(3deg); margin-top:14px;}
@@ -457,6 +554,16 @@
     padding:10px 0;
     border-top:1px solid rgba(246,241,232,.1);
     font-size:13px;
+    cursor:pointer;
+    transition:background .15s ease, padding-left .15s ease;
+    border-radius:4px;
+  }
+  .track:hover{background:rgba(246,241,232,.06); padding-left:6px;}
+  .track.playing span.num{color:var(--gold);}
+  .track.playing span:first-child::before{
+    content:"▶ ";
+    font-size:9px;
+    color:var(--gold);
   }
   .track span.num{color:var(--cyan); margin-right:10px;}
   .track span.dur{color:rgba(246,241,232,.5);}
@@ -489,6 +596,7 @@
     font-size:13px;
     color:var(--ink);
     min-width:180px;
+    transition:border-color .15s ease;
   }
   .nl-form input:focus{outline:2px solid var(--magenta); outline-offset:2px;}
   .nl-form button{
@@ -501,6 +609,28 @@
     border-radius:999px;
     cursor:pointer;
     font-family:var(--font-body);
+    transition:transform .15s ease, box-shadow .2s ease, filter .15s ease;
+  }
+  .nl-form button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px -10px rgba(255,61,174,.55);
+    filter:brightness(1.05);
+  }
+  .nl-form button:active{transform:translateY(0) scale(.96);}
+  .nl-msg{
+    font-size:13px;
+    font-weight:600;
+    color:#1C1526;
+    background:var(--gold);
+    border-radius:999px;
+    padding:10px 18px;
+    margin-top:14px;
+    display:none;
+  }
+  .nl-msg.show{display:inline-block; animation:pop .35s ease;}
+  @keyframes pop{
+    from{opacity:0; transform:translateY(8px) scale(.95);}
+    to{opacity:1; transform:none;}
   }
 
   /* ---------- FOOTER ---------- */
@@ -518,7 +648,7 @@
   }
 </style>
 </head>
-<body>
+<body data-new-gr-c-s-check-loaded="14.1151.0" data-gr-ext-installed="">
 
 <div class="mockup-banner">Direction mockup — hero, services, trust &amp; releases sections · gradients stand in for real photography &amp; artwork</div>
 
@@ -526,25 +656,32 @@
   <div class="nav-inner">
     <div class="logo"><span class="logo-mark">🌙</span> moon magnet</div>
     <nav class="links">
-      <a href="#services">Lessons</a>
-      <a href="#services">DJ</a>
-      <a href="#services">Studio</a>
-      <a href="#releases">Releases</a>
-      <a href="#trust">About</a>
+      <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#services" class="keychainify-checked">Lessons</a>
+      <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#services" class="keychainify-checked">DJ</a>
+      <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#services" class="keychainify-checked">Studio</a>
+      <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#releases" class="keychainify-checked">Releases</a>
+      <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#trust" class="keychainify-checked">About</a>
     </nav>
-    <a class="nav-cta" href="#">Book a call</a>
+    <a class="nav-cta keychainify-checked" href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#">Book a call</a>
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
   </div>
-</header>
-
-<section class="hero">
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#services" class="keychainify-checked">Lessons</a>
+    <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#services" class="keychainify-checked">DJ</a>
+    <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#services" class="keychainify-checked">Studio</a>
+    <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#releases" class="keychainify-checked">Releases</a>
+    <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#trust" class="keychainify-checked">About</a>
+    <a href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#" class="nav-cta keychainify-checked">Book a call</a>
+  </nav>
+</header><section class="hero">
   <div class="hero-inner">
-    <div>
+    <div class="reveal in">
       <div class="eyebrow-line">Denver, since 2013</div>
       <h1 class="headline">Gravitate to <span class="accent">your sound.</span></h1>
       <p class="sub">Music lessons, DJs &amp; MCs, mixing and mastering, and the record label we run ourselves — all out of one foil-covered house in Denver.</p>
-      <a class="btn-primary" href="#">Start a project</a>
+      <a class="btn-primary keychainify-checked" href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#">Start a project</a>
     </div>
-    <div class="collage">
+    <div class="collage reveal d1 in">
       <div class="tile t1"><div class="swatch">Moonhammer band photo</div></div>
       <div class="tile t2"><div class="swatch">Studio mixing session</div></div>
       <div class="tile t3"><div class="swatch">Comp Vol. cover art</div></div>
@@ -567,53 +704,53 @@
 </section>
 
 <section class="services" id="services">
-  <div class="section-head">
+  <div class="section-head reveal in">
     <h2>Three doors into one house</h2>
     <p>Learn, record, or book us — it's all run by the same collective of working musicians.</p>
   </div>
   <div class="card-fan">
-    <div class="service-card">
+    <div class="service-card reveal d1 in">
       <div class="service-photo sp1">Photo: lesson in progress</div>
       <div class="service-body">
         <span class="tag">Learn</span>
         <h3>Music School</h3>
         <p>Guitar, piano, voice, and production — our teachers drive to you.</p>
-        <a class="link" href="#">Find Denver lessons</a>
+        <a class="link keychainify-checked" href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#">Find Denver lessons</a>
       </div>
     </div>
-    <div class="service-card">
+    <div class="service-card reveal d2 in">
       <div class="service-photo sp2">Photo: mixing desk close-up</div>
       <div class="service-body">
         <span class="tag">Create</span>
         <h3>Mixing &amp; Mastering</h3>
         <p>Record, mix, and master at Moon Magnet Studios.</p>
-        <a class="link" href="#">Explore the studio</a>
+        <a class="link keychainify-checked" href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#">Explore the studio</a>
       </div>
     </div>
-    <div class="service-card">
+    <div class="service-card reveal d3 in">
       <div class="service-photo sp3">Photo: DJ set, crowd lit up</div>
       <div class="service-body">
         <span class="tag">Celebrate</span>
         <h3>DJ &amp; MC Services</h3>
         <p>DJs and MCs for weddings, corporate events, and parties.</p>
-        <a class="link" href="#">See DJ services</a>
+        <a class="link keychainify-checked" href="https://d3p662obnq9uz2.cloudfront.net/file-interaction/4386848e-moon-magnet-music-redesign.html#">See DJ services</a>
       </div>
     </div>
   </div>
 </section>
 
 <section class="trust" id="trust">
-  <div class="stubs">
+  <div class="stubs reveal in">
     <div class="stub"><div class="yr">2026</div><div class="name">Best of Denver — Westword</div></div>
     <div class="stub"><div class="yr">2026</div><div class="name">Outstanding Alumni — CU</div></div>
     <div class="stub"><div class="yr">2026</div><div class="name">Best of Zola</div></div>
     <div class="stub"><div class="yr">2025</div><div class="name">Best of Zola</div></div>
   </div>
-  <div class="quote-block">
+  <div class="quote-block reveal d1 in">
     <p class="q">"Reed made our wedding one of the great experiences of my life — personal, intentional, truly special."</p>
     <p class="by">Ben Tyson, Groom</p>
   </div>
-  <div class="worked-with">
+  <div class="worked-with reveal d2 in">
     <span class="chip">Denver Art Museum</span>
     <span class="chip">303 Magazine</span>
     <span class="chip">Indie 102.3</span>
@@ -622,12 +759,12 @@
 </section>
 
 <section class="releases" id="releases">
-  <div class="section-head">
+  <div class="section-head reveal in">
     <h2>Latest from the label</h2>
     <p>Moon Magnet Records — and the art that comes with it.</p>
   </div>
   <div class="rel-grid">
-    <div class="wall">
+    <div class="wall reveal in">
       <div class="piece p1"><span>Comp Vol. 2 art</span></div>
       <div class="piece p2"><span>Moonhammer cassette</span></div>
       <div class="piece p3"><span>Bun Bun merch</span></div>
@@ -635,7 +772,7 @@
       <div class="piece p5"><span>Foil packaging</span></div>
       <div class="piece p6"><span>Comp Vol. 2</span></div>
     </div>
-    <div>
+    <div class="reveal d1 in">
       <div class="player-card">
         <div class="player-top">
           <div class="player-art"></div>
@@ -644,20 +781,23 @@
             <p>Playlist · deCollage &amp; friends</p>
           </div>
         </div>
-        <div class="track"><span><span class="num">01</span>Snakey</span><span class="dur">3:47</span></div>
-        <div class="track"><span><span class="num">02</span>Europa</span><span class="dur">3:08</span></div>
-        <div class="track"><span><span class="num">03</span>Burnout</span><span class="dur">3:52</span></div>
-        <div class="track"><span><span class="num">04</span>Slackjaw</span><span class="dur">3:24</span></div>
+        <div class="track" data-dur="3:47"><span><span class="num">01</span>Snakey</span><span class="dur">3:47</span></div>
+        <div class="track" data-dur="3:08"><span><span class="num">02</span>Europa</span><span class="dur">3:08</span></div>
+        <div class="track" data-dur="3:52"><span><span class="num">03</span>Burnout</span><span class="dur">3:52</span></div>
+        <div class="track" data-dur="3:24"><span><span class="num">04</span>Slackjaw</span><span class="dur">3:24</span></div>
       </div>
       <div class="newsletter">
         <div>
           <h3>Stay in orbit</h3>
           <p>Events, releases, and the occasional curiosity.</p>
         </div>
-        <form class="nl-form" onsubmit="return false;">
-          <input type="email" placeholder="Email address" required>
-          <button type="submit">Join the orbit</button>
-        </form>
+        <div>
+          <form class="nl-form" id="nlForm">
+            <input type="email" placeholder="Email address" required="">
+            <button type="submit">Join the orbit</button>
+          </form>
+          <span class="nl-msg" id="nlMsg">Welcome aboard — you're in orbit! 🚀</span>
+        </div>
       </div>
     </div>
   </div>
@@ -667,5 +807,83 @@
   Moon Magnet Music · Denver, CO · Be kind to your dreams.
 </footer>
 
-</body>
-</html>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Scroll reveal */
+  if(!reduce && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* Mobile menu */
+  var toggle = document.querySelector('.menu-toggle');
+  var menu = document.getElementById('mobileMenu');
+  if(toggle && menu){
+    toggle.addEventListener('click', function(){
+      var open = menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.textContent = open ? '✕' : '☰';
+    });
+    menu.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        menu.classList.remove('open');
+        toggle.textContent = '☰';
+      });
+    });
+  }
+
+  /* Track player interaction */
+  document.querySelectorAll('.track').forEach(function(track){
+    track.addEventListener('click', function(){
+      document.querySelectorAll('.track').forEach(function(t){ t.classList.remove('playing'); });
+      track.classList.add('playing');
+    });
+  });
+
+  /* Newsletter toast */
+  var form = document.getElementById('nlForm');
+  var msg = document.getElementById('nlMsg');
+  if(form){
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      form.reset();
+      msg.classList.add('show');
+      setTimeout(function(){ msg.classList.remove('show'); }, 4000);
+    });
+  }
+})();
+</script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
